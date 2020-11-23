@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">Filtros</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="sandbox-character-field" class="control-label">Personagem:</label>
+							<input type="text" id="sandbox-character-field" class="form-control" onkeyup="plse.updatePreview(this, 'sandbox', 'c', true, event, plse.getSandboxPlatform())" />
+						</div>
+						<div class="form-group">
+							<label for="sandbox-text-field" class="control-label">Texto:</label>
+							<textarea id="sandbox-text-field" class="form-control" rows="3" onkeyup="plse.updatePreview(this, 'sandbox', 't', true, event, plse.getSandboxPlatform())"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="sandbox-background-field" class="control-label" style="display: block">Plano de Fundo:</label>
+							<select id="sandbox-background-field" class="form-control" onchange="plse.updateBackgroundsSandbox(this)" style="width: 100%"></select>
+						</div>
+						<button type="button" class="btn btn-primary"
+							onclick="plse.renderSandboxImageOnBrowser('sandbox-character-field', 'sandbox-text-field', 'sandbox')">
+							<span class="glyphicon glyphicon-picture"></span>
+							Gerar Imagem
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="previas row">
+					<div class="col-xs-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Prévia</h3>
+							</div>
+							<div class="panel-body">
+								<div id="sandbox" class="dialog-preview">
+									<div class="character-name"></div>
+									<div class="text-window"></div>
+								</div>
+								<br />
+								<img id="sandbox-comparative-image" src="images/judge_filled.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
