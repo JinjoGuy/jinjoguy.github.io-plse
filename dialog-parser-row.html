@@ -1,0 +1,31 @@
+<tr>
+	<td class="order">{{:order}}</td>
+	<td class="section">{{:section}}</td>
+	<td class="block-number">{{:blockNumber}}</td>
+	<td class="form-fields">
+		<textarea class="form-control text-field" data-order="{{:order}}"
+			data-section="{{:section}}" data-block="{{:blockNumber}}" data-color="{{:color}}"
+			onkeyup="plse.updatePreview(this, '{{:dialogId}}', 't', false, event)"
+			onchange="plse.updateRow(this)">{{:text}}</textarea>
+		<div class="text-without-tags hidden">{{:textWithoutTags}}</div>
+	</td>
+	<td class="preview-conteiners">
+		<div id="{{:dialogId}}" class="dialog-preview text-only">
+			<div class="character-name" data-character-code="{{:characterCode}}"></div>
+			<div class="btn-group btn-group-xs" role="group" aria-label="Ações">
+				<button class="btn btn-warning copy-clipboard" tabindex="-1">
+					<span class="glyphicon glyphicon-copy"></span>
+				</button>
+				<button class="btn btn-primary render-image" tabindex="-1" title="Gerar Imagem"
+					onclick="plse.renderPreviewImageOnBrowser(this)">
+					<span class="glyphicon glyphicon-picture"></span>
+				</button>
+				<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+					onclick="plse.addNewDialogBlock(this)">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</div>
+			<div class="text-window"></div>
+		</div>
+	</td>
+</tr>
