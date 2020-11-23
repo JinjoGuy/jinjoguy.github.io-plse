@@ -1,0 +1,76 @@
+<form class="dialog-file-form" onsubmit="return plse.readScriptFiles(this)">
+	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			
+			<div class="row">
+				<div class="col-sm-8 text-center">
+					
+					<div id="main-options" class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default btn-lg" tabindex="0" onkeyup="return plse.instantiateFileOriginKeyupBehaviours(this, event)">
+							<input type="radio" name="file-origin" id="file-origin-input" value="f"
+								onchange="plse.toggleFileOrigin(this)" />
+							<span class="glyphicon glyphicon-open-file"></span><br />
+							Escolher arquivos
+						</label>
+						<label class="btn btn-default btn-lg" tabindex="0" onkeyup="return plse.instantiateFileOriginKeyupBehaviours(this, event)">
+							<input type="radio" name="file-origin" id="file-origin-select-test-scripts" value="t"
+								onchange="plse.toggleFileOrigin(this)" />
+							<span class="glyphicon glyphicon-list-alt"></span><br />
+							Abrir script de teste
+						</label>
+					</div>
+					
+					<div class="text-center">
+						
+						<input type="file" id="file-field" name="script-file" required multiple disabled
+							onchange="plse.readScriptFilesFromInput(this)" style="display: none" />
+						
+						<div id="scripts-folder-list" class="btn-group-vertical file-list" data-toggle="buttons" style="display: none">
+							<p>Marque os scripts que deseja abrir</p>
+						</div>
+						
+						<div id="test-scripts-list" class="btn-group-vertical file-list" data-toggle="buttons" style="display: none">
+							<p>Selecione um dos scripts abaixo</p>
+						</div>
+						
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">Configurações</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="game-field" style="display: block">Jogo:</label>
+								<select class="form-control" name="game-field" id="game-field" style="width: 100%"
+									onchange="plse.changeDefaultGame(this); plse.loadEquivalenceTableFromFileForm(this.value); plse.validateSelectedPlatformFromFileForm()">
+									<option value="ltn1" selected>Curious Village (Layton 1)</option>
+									<option value="ltn2">Pandora's Box (Layton 2)</option>
+									<option value="ltn3">Lost Future (Layton 3)</option>
+									<option value="ltn4">Spectre's Call (Layton 4)</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="name-type" style="display: block">Nomes da Tabela de Equivalência:</label>
+								<select class="form-control" name="name-type" id="name-type" style="width: 100%"
+									onchange="plse.changeDefaultNameTypes(this)">
+									<option value="o" selected>Originais</option>
+									<option value="a">Adaptados</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="destination-tool" style="display: block">Tool de Destino:</label>
+								<select class="form-control" name="destination-tool" id="destination-tool" style="width: 100%"
+									onchange="plse.changeDestinationTool(this)">
+									<option value="dhh" selected data-description="(Scripts em ANSI, tags em {chaves})">Tool do DiegoHH</option>
+									<option value="opf" data-description="(Scripts em UTF-8, tags em <chevron>)">Tool nova do Onepiecefreak</option>
+									<option value="oopf" data-description="(Scripts em UTF-8, tags em {chaves})">Antiga tool do Onepiecefreak</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
