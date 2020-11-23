@@ -1,0 +1,21 @@
+{
+	"name": "Professor Layton Script Editor",
+	"version": "0.0,1",
+	"description": "Dialogue editor for Professor Layton games, made in electron.js",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron ."
+	},
+	"keywords": [
+		"professor",
+		"layton",
+		"script",
+		"editor"
+	],
+	"author": "Solid One",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"electron": "~1.8.4"
+	},
+	"dependencies": {}
+}
