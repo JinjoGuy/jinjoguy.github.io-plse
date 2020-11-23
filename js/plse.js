@@ -2,7 +2,7 @@
  * 
  */
 
-function aade(){
+function plse(){
 	
 	// Properties
 	this.destinationTool = 'dhh';
@@ -21,9 +21,9 @@ function aade(){
 	this.originOfOpenedFiles = '';
 	this.configs = {};
 	this.defaultConfigs = {
-		'game': 'aa1',
+		'game': 'ltn1',
 		'nameType': 'o',
-		'platform': '3ds',
+		'platform': 'ds',
 		'invalidateLargeLines': true,
 		'theme': 'light',
 		'highlightingColors': {
@@ -304,50 +304,6 @@ function aade(){
 		this.instantiateSelect2Fields();
 	}
 	
-	this.showTestScriptOptions = function(){
-		var $divTestScriptsList = $('#test-scripts-list');
-		
-		var testScriptsFolder = 'test_scripts/';
-		
-		var testScripts = [
-			{
-				'filename': 'AAI1 Case 1 Beginning (DiegoHH and djmatheusito).txt',
-				'label': 'AAI1 Caso 1 Início (DiegoHH e djmatheusito).txt'
-			},
-			{
-				'filename': 'AA1 Accents (DiegoHH).txt',
-				'label': 'AA1 Acentos (DiegoHH).txt'
-			},
-			{
-				'filename': 'AA1 Tags in Chevron (OPF).txt',
-				'label': 'AA1 Chevron (OPF).txt'
-			},
-			{
-				'filename': 'AA1 Tags in Chevron (OPF).txt',
-				'label': 'AA1 Chaves (OPF antigo).txt'
-			}
-		];
-		
-		$.get('dialog-file-form-test-scripts.html').then(function(response){
-			var template = $.templates(response);
-			
-			for(var i in testScripts){
-				var testScript = testScripts[i];
-				var filename = testScriptsFolder + testScript.filename;
-				var label = testScript.label;
-				
-				var rowInfo = {
-					'iterator': i,
-					'filename': filename,
-					'label': label
-				}
-				var $newLabel = $( template.render(rowInfo) );
-				
-				$divTestScriptsList.append($newLabel);
-			}
-		})
-	}
-	
 	this.readScriptFilesFromInput = function(inputFileField){
 		var $inputFileField = $(inputFileField);
 		var $radioFileOriginInput = $('#file-origin-input');
@@ -380,14 +336,14 @@ function aade(){
 			var $firstOption = $btnGroupMainOptions.children('label').first();
 			var $optionLoadScriptsInFolder = $('<label />').addClass('btn btn-default btn-lg').attr({
 				'tabindex': '0',
-				'onkeyup': 'return aade.instantiateFileOriginKeyupBehaviours(this, event)'
+				'onkeyup': 'return plse.instantiateFileOriginKeyupBehaviours(this, event)'
 			}).append(
 				$('<input />').attr({
 					'type': 'radio',
 					'name': 'file-origin',
 					'id': 'file-origin-load-scripts-in-folder',
 					'value': 's',
-					'onchange': 'aade.toggleFileOrigin(this)'
+					'onchange': 'plse.toggleFileOrigin(this)'
 				})
 			).append(
 				$('<span />').addClass('glyphicon glyphicon-open-file')
@@ -410,7 +366,7 @@ function aade(){
 					$divScriptsFolderList.append(
 						$('<label />').addClass('btn btn-default').attr({
 							'tabindex': '0',
-							'onkeyup': 'return aade.setTestScriptKeyupBehaviours(this, event)'
+							'onkeyup': 'return plse.setTestScriptKeyupBehaviours(this, event)'
 						}).append(
 							$('<input />').attr({
 								'type': 'checkbox',
@@ -427,7 +383,7 @@ function aade(){
 				$divScriptsFolderList.append(
 					$('<label />').addClass('btn btn-default submit').attr({
 							'tabindex': '0',
-							'onkeyup': 'return aade.setTestScriptKeyupBehaviours(this, event)'
+							'onkeyup': 'return plse.setTestScriptKeyupBehaviours(this, event)'
 						}).append(
 						$('<input />').attr({
 							'type': 'checkbox',
@@ -632,7 +588,7 @@ function aade(){
 					$('<span />').addClass('glyphicon glyphicon-remove remove-script').attr({
 						'tabindex': '0',
 						'title': 'Fechar script',
-						'onclick': "aade.closeScriptFile('" + scriptTabId + "')"
+						'onclick': "plse.closeScriptFile('" + scriptTabId + "')"
 					})
 				);
 				var $divTabpanel = $('<div />').attr({
@@ -807,22 +763,6 @@ function aade(){
 					}
 				}
 				
-				// If the game is AAI1, then delete empty blocks between each section
-				// in order to avoid visual pollution
-				if(game == 'aai1'){
-					for(var sectionNumber in sectionBlocks){
-						var section = sectionBlocks[sectionNumber];
-						
-						for(var blockNumber in section){
-							var block = section[blockNumber];
-							
-							var text = $.trim( block['text'] );
-							if(text == ''){
-								delete sectionBlocks[sectionNumber][blockNumber];
-							}
-						}
-					}
-				}
 
 				// Loading dialog parser table
 				var $dialogParserTable = $divTabpanel.children('table');
@@ -873,9 +813,6 @@ function aade(){
 
 						// Removing "add new block" button on some specific contexts:
 						// 1. if there's an end tag inside the block
-						// 2. if the game is AAI1
-						if(checkHasEndjmpTag || that.configs.game == 'aai1'){
-							$tr.find('button.add-new-block').remove();
 						}
 
 						order++;
@@ -1359,10 +1296,6 @@ function aade(){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
 		if(typeof game == 'undefined') game = this.configs.game;
-		if(typeof platform == 'undefined') platform = this.configs.platform;
-		
-		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
-		var checkGameIsAAI1 = (game == 'aai1');
 		
 		var keyCode;
 		if(typeof event != 'undefined'){
@@ -1513,9 +1446,6 @@ function aade(){
 							} else {
 								$divTextWindow.removeClass('centered');
 							}
-						} else if(checkGameIsAAI1 && tagText.startsWith('margem:')){
-							var tmp = tagText.split(':');
-							var margin = parseInt(tmp.pop(), 10);
 							
 							$divTextWindow.append(
 								$('<span />').addClass('letter space ' + this.lastColor).html('&nbsp;').css('marginLeft', margin - 16)
@@ -1602,17 +1532,13 @@ function aade(){
 	}
 	
 	this.loadConfigsForm = function(){
-		var $radioGameFieldAA1 = $('#config-game-field-aa1');
-		var $radioGameFieldAA2 = $('#config-game-field-aa2');
-		var $radioGameFieldAA3 = $('#config-game-field-aa3');
-		var $radioGameFieldAA4 = $('#config-game-field-aa4');
-		var $radioGameFieldAAI1 = $('#config-game-field-aai1');
+		var $radioGameFieldLayton1 = $('#config-game-field-ltn1');
+		var $radioGameFieldLayton2 = $('#config-game-field-ltn2');
+		var $radioGameFieldLayton3 = $('#config-game-field-ltn3')
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
-		var $radioPlatform3DS = $('#config-platform-3ds');
-		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
-		var $radioPlatformDSAmerican = $('#config-platform-ds-american');
-		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
+		var $radioNameTypeEng = $('#config-name-type-eng');
+		var $radioNameTypeJpn = $('#config-name-type-jpn');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
 		var $radioThemeLight = $('#config-theme-light');
@@ -1620,16 +1546,12 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.configs.game == 'aai1'){
-			$radioGameFieldAAI1.prop('checked', true);
-		} else if(this.configs.game == 'aa4'){
-			$radioGameFieldAA4.prop('checked', true);
-		} else if(this.configs.game == 'aa3'){
-			$radioGameFieldAA3.prop('checked', true);
-		} else if(this.configs.game == 'aa2'){
-			$radioGameFieldAA2.prop('checked', true);
-		} else {
-			$radioGameFieldAA1.prop('checked', true);
+		if(this.configs.game == 'ltn3'){
+			 $radioGameFieldLayton3.prop('checked', true);
+		} else if(this.configs.game == 'ltn2'){
+			$radioGameFieldLayton2.prop('checked', true);
+		} else if(this.configs.game == 'ltn1'){
+			$radioGameFieldLayton1.prop('checked', true);
 		}
 		
 		if(this.configs.nameType == this.defaultConfigs.nameType){
@@ -1638,14 +1560,10 @@ function aade(){
 			$radioNameTypeAdapted.prop('checked', true);
 		}
 		
-		if(this.configs.platform == 'ds_jacutemsabao'){
-			$radioPlatformDSJTS.prop('checked', true);
-		} else if(this.configs.platform == 'ds_american'){
-			$radioPlatformDSAmerican.prop('checked', true);
-		} else if(this.configs.platform == 'ds_european'){
-			$radioPlatformDSEuropean.prop('checked', true);
-		} else {
-			$radioPlatform3DS.prop('checked', true);
+		if(this.configs.nameType == 'eng'){
+			$radioNameTypeEng.prop('checked', true);
+		} else if(this.configs.platform == 'jpn'){
+			$radioNameTypeJpn.prop('checked', true);
 		}
 		
 		if(this.configs.invalidateLargeLines == this.defaultConfigs.invalidateLargeLines){
@@ -1680,17 +1598,13 @@ function aade(){
 	}
 	
 	this.loadDefaultConfigs = function(){
-		var $radioGameFieldAA1 = $('#config-game-field-aa1');
-		var $radioGameFieldAA2 = $('#config-game-field-aa2');
-		var $radioGameFieldAA3 = $('#config-game-field-aa3');
-		var $radioGameFieldAA4 = $('#config-game-field-aa4');
-		var $radioGameFieldAAI1 = $('#config-game-field-aai1');
+		var $radioGameFieldLayton1 = $('#config-game-field-ltn1');
+		var $radioGameFieldLayton2 = $('#config-game-field-ltn2');
+		var $radioGameFieldLayton3 = $('#config-game-field-ltn3')
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
-		var $radioPlatform3DS = $('#config-platform-3ds');
-		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
-		var $radioPlatformDSAmerican = $('#config-platform-ds-american');
-		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
+		var $radioNameTypeEng = $('#config-name-type-eng');
+		var $radioNameTypeJpn = $('#config-name-type-jpn');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
 		var $radioThemeLight = $('#config-theme-light');
@@ -1698,30 +1612,26 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.defaultConfigs.game == 'aai1'){
-			$radioGameFieldAAI1.prop('checked', true);
-		} else if(this.defaultConfigs.game == 'aa4'){
-			$radioGameFieldAA4.prop('checked', true);
-		} else if(this.defaultConfigs.game == 'aa3'){
-			$radioGameFieldAA3.prop('checked', true);
-		} else if(this.defaultConfigs.game == 'aa2'){
-			$radioGameFieldAA2.prop('checked', true);
-		} else {
-			$radioGameFieldAA1.prop('checked', true);
+		if(this.configs.game == 'ltn3'){
+			 $radioGameFieldLayton3.prop('checked', true);
+		} else if(this.configs.game == 'ltn2'){
+			$radioGameFieldLayton2.prop('checked', true);
+		} else if(this.configs.game == 'ltn1'){
+			$radioGameFieldLayton1.prop('checked', true);
 		}
-		if(this.defaultConfigs.nameType == 'o'){
+		
+		if(this.configs.nameType == this.defaultConfigs.nameType){
 			$radioNameTypeOriginal.prop('checked', true);
 		} else {
 			$radioNameTypeAdapted.prop('checked', true);
 		}
-		if(this.defaultConfigs.platform == 'ds_jacutemsabao'){
-			$radioPlatformDSJTS.prop('checked', true);
-		} else if(this.defaultConfigs.platform == 'ds_american'){
-			$radioPlatformDSAmerican.prop('checked', true);
-		} else if(this.defaultConfigs.platform == 'ds_european'){
-			$radioPlatformDSEuropean.prop('checked', true);
-		} else {
-			$radioPlatform3DS.prop('checked', true);
+		
+		if(this.configs.nameType == 'eng'){
+			$radioNameTypeEng.prop('checked', true);
+		} else if(this.configs.platform == 'jpn'){
+			$radioNameTypeJpn.prop('checked', true);
+		}
+		
 		}
 		if(this.defaultConfigs.invalidateLargeLines){
 			$radioInvalidateLargeLinesTrue.prop('checked', true);
@@ -1765,15 +1675,6 @@ function aade(){
 		var checkedGame = $checkedRadioGameField.val();
 		var checkedPlatform = $checkedRadioPlatformField.val();
 		
-		if(checkedGame == 'aai1'){
-			$radioInvalidateLargeLinesFields.attr('disabled', 'disabled').prop('checked', false);
-			if(checkedPlatform == '3ds') $radioPlatformDSJTS.prop('checked', true);
-			$radioPlatform3DS.attr('disabled', 'disabled');
-		} else {
-			$radioPlatform3DS.removeAttr('disabled', 'disabled');
-			$radioInvalidateLargeLinesFields.removeAttr('disabled').first().prop('checked', true);
-		}
-	}
 	
 	this.hideScriptConfigSettings = function(){
 		$('#config-settings').modal('hide');
@@ -2258,9 +2159,6 @@ function aade(){
 			}).html('<span class="glyphicon glyphicon-minus"></span>');
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 			
-			// Removing add button if the game is AAI1
-			if(that.configs.game = 'aai1'){
-				$newTdPreviewConteiners.find('button.add-new-block').remove();
 			}
 
 			// Incrementing row counter in the footer of the table
@@ -2990,10 +2888,7 @@ function aade(){
 		var charactersPerLine = 0;
 		var message = '';
 		var that = this;
-		var platform = that.configs.platform;
 		var game = that.configs.game;
-		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
-		var checkGameIsAAI1 = (game == 'aai1');
 		
 		var checkValidBlock = true;
 		var checkBlockWidthLastLineReduced = false;
@@ -3020,25 +2915,6 @@ function aade(){
 			
 			// For blocks with three lines, defining caret right padding
 			// and reducing block width with its value
-			if((checkGameIsAAI1 || (checkHasCaret && lineNumber == 3)) && !checkBlockWidthLastLineReduced){
-				if(checkCenteredBlock){
-					if(checkPlatformDS){
-						caretRightPadding = 15;
-					} else {
-						caretRightPadding = 23;
-					}
-				} else {
-					if(checkPlatformDS){
-						caretRightPadding = 13;
-					} else {
-						caretRightPadding = 17;
-					}
-				}
-				blockWidth -= caretRightPadding;
-				if(checkGameIsAAI1) blockWidth -= 2;
-				checkBlockWidthLastLineReduced = true;
-			}
-			
 			// Validating block
 			if(lineNumber > 3 && checkAtLeastOneCharacterInLine){
 				checkValidBlock = false;
@@ -3064,17 +2940,6 @@ function aade(){
 				}
 				
 				checkValidBlock = false;
-				if(checkInsideCaretArea && !checkGameIsAAI1){
-					message = 'Texto sobrepondo a área do cursor da terceira linha!';
-				} else {
-					message = 'Largura da linha ultrapassa limite do bloco!';
-				}
-			}
-			if((that.configs.invalidateLargeLines && !checkGameIsAAI1) && (charactersPerLine > 32)){
-				checkValidBlock = false;
-				message = 'Contém linhas com mais de 32 caracteres!';
-				return false; // Exit $.each
-			}
 		});
 		
 		// Returning true if block is valid, or an array containing the block element
@@ -3422,15 +3287,6 @@ function aade(){
 		var platform = this.configs.platform;
 		
 		if(!platform) platform = this.defaultConfigs.platform;
-		
-		if(game == 'aai1'){
-			if(platform == '3ds') $selectPlatform.val('ds_jacutemsabao');
-			$selectPlatform.find("option[value='3ds']").attr('disabled', 'disabled');
-		} else {
-			$selectPlatform.find("option[value='3ds']").removeAttr('disabled');
-		}
-		$selectPlatform.trigger('change');
-		this.reinstantiateSelect2Fields($selectPlatform);
 	}
 	
 	this.addCharacterEquivalenceTable = function(){
@@ -3667,14 +3523,6 @@ function aade(){
 	}
 	
 	this.getColorClass = function(colorCode){
-		if(this.configs.game == 'aai1'){
-			if(colorCode == 32770 || colorCode == 1){
-				return 'color-orange';
-			} else if(colorCode == 32772 || colorCode == 2){
-				return 'color-blue';
-			} else if(colorCode == 32774 || colorCode == 3){
-				return 'color-green';
-			} else {
 				return '';
 			}
 		} else {
