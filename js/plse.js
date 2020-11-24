@@ -1,4 +1,4 @@
-/* Javascript library containing methods related to Ace Attorney Dialogue Editor
+/* Javascript library containing methods related to Professor Layton Script Editor
  * 
  */
 
@@ -1763,9 +1763,9 @@ function plse(){
 		var totalOpenedFiles = this.openedFiles.length;
 		var extension;
 		if(totalOpenedFiles > 1){
-			extension = '.zip';
-		} else {
 			extension = '.txt';
+		} else {
+			extension = '.cpck';
 		}
 		
 		// Appending current date / time into the filename
@@ -1905,7 +1905,6 @@ function plse(){
 	}
 	
 	this.openAboutPage = function(){
-		var url_github = 'https://github.com/leomontenegro6/aade';
 		if( this.checkOnElectron() ){
 			var shell = require('electron').shell;
 			shell.openExternal(url_github);
@@ -2155,7 +2154,7 @@ function plse(){
 			var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
 				'tabindex': '-1',
 				'title': 'Remover bloco de diálogo',
-				'onclick': 'aade.removeDialogBlock(this)'
+				'onclick': 'plse.removeDialogBlock(this)'
 			}).html('<span class="glyphicon glyphicon-minus"></span>');
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 			
@@ -2429,9 +2428,12 @@ function plse(){
 						});
 					} else {
 						// TXT file
-						finalFilename += '.txt';
+						if finalFilename += '.txt';
 						var scriptText = scriptsTexts[0];
 						var text = scriptText.text;
+						} else finalFilename += '.cpck';
+					        var scriptText = scriptsTexts[0];
+					        var cpck = scriptText.cpck;
 						
 						if(saveFormat == 'ansi'){
 							// Saving script in ANSI encoding
@@ -2636,7 +2638,7 @@ function plse(){
 		
 		var destinationTool = this.destinationTool;
 		var scriptText = "<b>SCRIPT DUMPADO APENAS PARA FINS DE ANÁLISE E REVISÃO</b><br />";
-		scriptText += "<b>NÃO TRADUZA O SCRIPT POR AQUI, MAS SIM PELO PRÓPRIO AADE!</b><br /><br />";
+		scriptText += "<b>NÃO TRADUZA O SCRIPT POR AQUI, MAS SIM PELO PRÓPRIO PLSE!</b><br /><br />";
 		var scriptSections = [];
 		var that = this;
 		var characterCode = null;
@@ -2834,7 +2836,7 @@ function plse(){
 													$('<button />').attr({
 														'type': 'button',
 														'title': 'Ir para este bloco',
-														'onclick': 'aade.gotoRow("' + scriptTabId + '", ' + order + ')'
+														'onclick': 'plse.gotoRow("' + scriptTabId + '", ' + order + ')'
 													}).addClass('btn btn-sm btn-primary').html(
 														$('<span />').addClass('glyphicon glyphicon-arrow-right')
 													)
@@ -3216,7 +3218,7 @@ function plse(){
 		this.game = game;
 		
 		var that = this;
-		$.getScript('js/aade.et.' + game + '.js', function(){
+		$.getScript('js/plse.et.' + game + '.js', function(){
 			var $tableEquivalenceTable = $('#equivalence-table');
 			var $tbody = $tableEquivalenceTable.children('tbody');
 			
@@ -3225,7 +3227,8 @@ function plse(){
 			
 			for(var code in that.equivalenceTable){
 				var name = that.equivalenceTable[code];
-				var originalName = name.original;
+				var originalNameEng = name.eng.original;
+				var originalNameJpn = name.jpn.original;
 				var adaptedName = name.adapted;
 				
 				var $newTr = $('<tr />').addClass('default').append(
@@ -3234,11 +3237,22 @@ function plse(){
 					$('<td />').append(
 						$('<input />').attr({
 							'type': 'text',
-							'name': 'character[' + code + '][original_name]',
+							'name': 'character[' + code + '][original_name_eng]',
 							'placeholder': 'Digite o nome original'
-						}).val(originalName).addClass('form-control original-name').on({
+						}).val(originalNameEng).addClass('form-control original-name-eng').on({
 							'keyup': that.updatePreviewVisibleTextareas
 						})
+				var $newTr = $('<tr />').addClass('default').append(
+					$('<td />').addClass('code').html(code)
+				).append(
+					$('<td />').append(
+						$('<input />').attr({
+							'type': 'text',
+							'name': 'character[' + code + '][original_name_jpn]',
+							'placeholder': 'Digite o nome original'
+						}).val(originalNameJpn).addClass('form-control original-name-jpn').on({
+							'keyup': that.updatePreviewVisibleTextareas
+						})						
 					)
 				).append(
 					$('<td />').append(
@@ -3254,7 +3268,7 @@ function plse(){
 					$('<td />').append(
 						$('<button />').attr({
 							'type': 'button',
-							'onclick': 'aade.removeCharacterEquivalenceTable(this)',
+							'onclick': 'plse.removeCharacterEquivalenceTable(this)',
 							'disabled': 'disabled'
 						}).addClass('btn btn-danger').html(
 							$('<span />').addClass('glyphicon glyphicon-remove')
@@ -3316,7 +3330,8 @@ function plse(){
 		var $buttonRemove = $clonedTr.find('button');
 		
 		$tdCode.html(code);
-		$inputOriginalName.attr('name', 'character[' + code + '][original_name]').val('');
+		$inputOriginalNameEng.attr('name', 'character[' + code + '][original_name_eng]').val('');
+		$inputOriginalNameJpn.attr('name', 'character[' + code + '][original_name_jpn]').val('');
 		$inputAdaptedName.attr('name', 'character[' + code + '][adapted_name]').val('');
 		$buttonRemove.removeAttr('disabled');
 		
@@ -3403,12 +3418,8 @@ function plse(){
 		var $selectSandboxBackgroundField = $('#sandbox-background-field');
 		
 		var options = {
-			'judge': 'Juiz',
-			'phoenix_objecting': 'Veríssimo protestando',
-			'miles_argumenting': 'Spada argumentando',
-			'butz_scorning': 'Vário desdenhando',
-			'alphabet_test': 'Teste de alfabetos',
-			'accent_test': 'Teste de acentos'
+			'this': 'Layton falando',
+			'this2': 'Luke falando',
 		};
 		
 		for(var value in options){
@@ -3427,23 +3438,10 @@ function plse(){
 	
 	this.updateBackgroundsSandbox = function(field){
 		var $field = $(field);
-		var $selectPlatformSandbox = $('#sandbox-platform');
 		var $divSandboxPreview = $('#sandbox');
 		var $divSandboxTextWindow = $divSandboxPreview.children('div.text-window');
 		var $imgComparativeImage = $('#sandbox-comparative-image');
 		
-		var image = $field.val();
-		var platform = $selectPlatformSandbox.val();
-		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
-		
-		$divSandboxTextWindow.removeClass('n3ds ds_jacutemsabao ds_american ds_european');
-		if(checkPlatformDS){
-			image += '_ds';
-			$divSandboxPreview.addClass('ds');
-			$divSandboxTextWindow.addClass(platform);
-		} else {
-			$divSandboxPreview.removeClass('ds');
-			$divSandboxTextWindow.addClass('n3ds');
 		}
 		$divSandboxPreview.css('background', "url('images/" + image + ".png')");
 		$imgComparativeImage.attr('src', 'images/' + image + '_filled.png');
@@ -3654,7 +3652,7 @@ function plse(){
 }
 
 // Instantiating objct for class above
-var aade = new aade();
+var plse = new plse();
 
 // Disabling cache for all ajax requests
 $.ajaxSetup ({
