@@ -3188,8 +3188,8 @@ function plse(){
 			
 			for(var code in that.equivalenceTable){
 				var name = that.equivalenceTable[code];
-				var originalNameEng = name.eng.original;
-				var originalNameJpn = name.jpn.original;
+				var engName = name.eng.original;
+				var jpnName = name.jpn.original;
 				var adaptedName = name.adapted;
 				
 				var $newTr = $('<tr />').addClass('default').append(
@@ -3200,7 +3200,7 @@ function plse(){
 							'type': 'text',
 							'name': 'character[' + code + '][original_name_eng]',
 							'placeholder': 'Digite o nome original'
-						}).val(originalNameEng).addClass('form-control original-name-eng').on({
+						}).val(engName).addClass('form-control original-name-eng').on({
 							'keyup': that.updatePreviewVisibleTextareas
 						})
 				var $newTr = $('<tr />').addClass('default').append(
@@ -3279,20 +3279,20 @@ function plse(){
 		
 		var $clonedTr = $tbody.find('tr').last().clone().removeClass('default');
 		var $tdCode = $clonedTr.find('td.code');
-		var $inputOriginalNameEng = $clonedTr.find('input.original-eng');
-		var $inputOriginalNameJpn = $clonedTr.find('input.original-jpn');
+		var $inputEngName = $clonedTr.find('input.eng-name');
+		var $inputJpnName = $clonedTr.find('input.jpn-name');
 		var $inputAdaptedName = $clonedTr.find('input.adapted-name');
 		var $buttonRemove = $clonedTr.find('button');
 		
 		$tdCode.html(code);
-		$inputOriginalNameEng.attr('name', 'character[' + code + '][original_name_eng]').val('');
-		$inputOriginalNameJpn.attr('name', 'character[' + code + '][original_name_jpn]').val('');
+		$inputEngName.attr('name', 'character[' + code + '][eng_name]').val('');
+		$inputJpnName.attr('name', 'character[' + code + '][jpn_name]').val('');
 		$inputAdaptedName.attr('name', 'character[' + code + '][adapted_name]').val('');
 		$buttonRemove.removeAttr('disabled');
 		
 		$clonedTr.appendTo($tbody);
-		$inputOriginalNameEng.focus();
-		$inputOriginalNameJpn.focus();
+		$inputEngName.focus();
+		$inputJpnName.focus();
 	}
 	
 	this.removeCharacterEquivalenceTable = function(button){
