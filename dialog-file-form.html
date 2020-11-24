@@ -43,18 +43,17 @@
 							<div class="form-group">
 								<label for="game-field" style="display: block">Jogo:</label>
 								<select class="form-control" name="game-field" id="game-field" style="width: 100%"
-									onchange="plse.changeDefaultGame(this); plse.loadEquivalenceTableFromFileForm(this.value); plse.validateSelectedPlatformFromFileForm()">
 									<option value="ltn1" selected>Curious Village (Layton 1)</option>
 									<option value="ltn2">Pandora's Box (Layton 2)</option>
 									<option value="ltn3">Lost Future (Layton 3)</option>
-									<option value="ltn4">Spectre's Call (Layton 4)</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label for="name-type" style="display: block">Nomes da Tabela de Equivalência:</label>
 								<select class="form-control" name="name-type" id="name-type" style="width: 100%"
 									onchange="plse.changeDefaultNameTypes(this)">
-									<option value="o" selected>Originais</option>
+									<option value="eng" selected>EUA/ Reino Unido</option>
+									<option value="jpn" selected>Japão</option>
 									<option value="a">Adaptados</option>
 								</select>
 							</div>
