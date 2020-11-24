@@ -23,7 +23,6 @@ function plse(){
 	this.defaultConfigs = {
 		'game': 'ltn1',
 		'nameType': 'o',
-		'platform': 'ds',
 		'invalidateLargeLines': true,
 		'theme': 'light',
 		'highlightingColors': {
@@ -56,7 +55,7 @@ function plse(){
 			that.loadTheme();
 			that.loadTabContents(function(){
 				that.setDefaultOptionsInFileForm();
-				that.setDefaultValuesSandboxField("Juiz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
+				that.setDefaultValuesSandboxField("Layton", "Kakakakakaka\nOi Lucas.");
 				that.instantiateSelect2Fields();
 				that.showTestScriptOptions();
 				that.removeTitleAttributeOnElectron();
@@ -73,14 +72,12 @@ function plse(){
 	this.loadConfigs = function(){
 		var game = stash.get('game');
 		var nameType = stash.get('nameType');
-		var platform = stash.get('platform');
 		var invalidateLargeLines = stash.get('invalidateLargeLines');
 		var theme = stash.get('theme');
 		var highlightingColors = stash.get('highlightingColors');
 		
 		if(typeof game == 'undefined') game = this.defaultConfigs.game;
 		if(typeof nameType == 'undefined') nameType = this.defaultConfigs.nameType;
-		if(typeof platform == 'undefined') platform = this.defaultConfigs.platform;
 		if(typeof invalidateLargeLines == 'undefined') invalidateLargeLines = this.defaultConfigs.invalidateLargeLines;
 		if(typeof theme == 'undefined') theme = this.defaultConfigs.theme;
 		if(typeof highlightingColors == 'undefined') highlightingColors = this.defaultConfigs.highlightingColors;
@@ -88,7 +85,6 @@ function plse(){
 		this.configs = {
 			'game': game,
 			'nameType': nameType,
-			'platform': platform,
 			'invalidateLargeLines': invalidateLargeLines,
 			'theme': theme,
 			'highlightingColors': highlightingColors
@@ -166,7 +162,6 @@ function plse(){
 		$divDialogFileFormContainer.load('dialog-file-form.html', function(){
 			$divEquivalenceTableTab.load('equivalence-table.html', function(){
 				$divSandboxTab.load('sandbox.html', function(){
-					that.validateSelectedPlatformFromFileForm();
 					that.loadSandboxBackgroundImageOptions();
 					if(callback) callback();
 				});
@@ -224,13 +219,12 @@ function plse(){
 	
 	this.setDefaultOptionsInFileForm = function(){
 		var $selectGameField = $('#game-field');
-		var $selectNameType = $('#name-type');
-		var $selectPlatform = $('#platform');
+		var $selectNameTypeEng = $('#name-type-eng');
+		var $selectNameTypeJpn = $(#'name-type-jpn')
 		
 		// Checking default options for each field
 		$selectGameField.val(this.configs.game).trigger('change');
-		$selectNameType.val(this.configs.nameType).trigger('change');
-		$selectPlatform.val(this.configs.platform).trigger('change');
+		$selectNameType.val(this.configs.nameType).trigger('change')
 	}
 	
 	this.instantiateSelect2Fields = function(){
@@ -881,7 +875,6 @@ function plse(){
 		var $divActiveTabpanel = $divMainTabsConteiner.children('div.col-xs-11').children('div.tab-content').children('div.tab-pane.active');
 		var $divTabPaneDialogParserTabPanel = $('#dialog-file-form-container').children('form.dialog-file-form').children('div.panel');
 		var $divTabPaneEquivalenceTablePanel = $('#equivalence-table-tab').children('div.panel');
-		var $divTabPaneSandboxPanel = $('#sandbox-tab').children('div.panel');
 		
 		var windowHeight = $(window).height();
 		var activeTabpanelOffset = $divActiveTabpanel.offset();
@@ -1193,17 +1186,21 @@ function plse(){
 		
 		var $textareas = $(textareas);
 		var $equivalenceTable = $('#equivalence-table');
-		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
+		var $inputsOriginalNamesEng = $equivalenceTable.find('input.original-name-eng');
+		var $inputsOriginalNamesJpn = $equivalenceTable.find('input.original-name-jpn');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
 		
 		var that = this;
 		var theme = that.configs.theme;
 		var themeColors = that.configs.highlightingColors[theme];
 		var destinationTool = that.destinationTool;
-		var originalNames = [], adaptedNames = [];
+		var originalNamesEng = [], originalNamesJpn = [], adaptedNames = [];
 		
-		$inputsOriginalNames.each(function(){
-			originalNames.push(this.value);
+		$inputsOriginalNamesEng.each(function(){
+			originalNamesEng.push(this.value);
+		});
+		$inputsOriginalNamesJpn.each(function(){
+			originalNamesJpn.push(this.value);
 		});
 		$inputsAdaptedNames.each(function(){
 			adaptedNames.push(this.value);
@@ -1292,7 +1289,7 @@ function plse(){
 		})
 	}
 	
-	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, game, platform){
+	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, game){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
 		if(typeof game == 'undefined') game = this.configs.game;
@@ -1332,11 +1329,6 @@ function plse(){
 		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
 		var destinationTool = this.destinationTool;
 		
-		// Adding parent class for DS platform detection
-		if(checkPlatformDS){
-			$divPreview.addClass('ds');
-		} else {
-			$divPreview.removeClass('ds');
 		}
 		
 		if(textType == 'c'){
@@ -1347,12 +1339,6 @@ function plse(){
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divTextWindow.html('');
 			
-			// Setting platform for preview
-			$divTextWindow.removeClass('n3ds ds_jacutemsabao ds_american ds_european');
-			if(checkPlatformDS){
-				$divTextWindow.addClass(platform);
-			} else {
-				$divTextWindow.addClass('n3ds');
 			}
 			
 			// Inserting {b} when user presses enter
@@ -1527,18 +1513,15 @@ function plse(){
 		// Loading configs into form
 		this.loadConfigsForm();
 		
-		// Validate "Platform" field
-		this.validateSelectedPlatformFromConfigSettings();
 	}
 	
 	this.loadConfigsForm = function(){
 		var $radioGameFieldLayton1 = $('#config-game-field-ltn1');
 		var $radioGameFieldLayton2 = $('#config-game-field-ltn2');
-		var $radioGameFieldLayton3 = $('#config-game-field-ltn3')
-		var $radioNameTypeOriginal = $('#config-name-type-original');
-		var $radioNameTypeAdapted = $('#config-name-type-adapted');
+		var $radioGameFieldLayton3 = $('#config-game-field-ltn3');
 		var $radioNameTypeEng = $('#config-name-type-eng');
 		var $radioNameTypeJpn = $('#config-name-type-jpn');
+		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
 		var $radioThemeLight = $('#config-theme-light');
@@ -1555,15 +1538,19 @@ function plse(){
 		}
 		
 		if(this.configs.nameType == this.defaultConfigs.nameType){
-			$radioNameTypeOriginal.prop('checked', true);
+			$radioNameTypeEng.prop('checked', true);
+		} else 
+			$radioNameTypeJpn.prop('checked', true);
 		} else {
 			$radioNameTypeAdapted.prop('checked', true);
 		}
 		
 		if(this.configs.nameType == 'eng'){
 			$radioNameTypeEng.prop('checked', true);
-		} else if(this.configs.platform == 'jpn'){
+		} else if(this.configs.nameType == 'jpn'){
 			$radioNameTypeJpn.prop('checked', true);
+	        } else if(this.configs.nameType == 'adapted'){
+			$radioNameTypeAdapted.prop('checked', true);
 		}
 		
 		if(this.configs.invalidateLargeLines == this.defaultConfigs.invalidateLargeLines){
@@ -1601,10 +1588,9 @@ function plse(){
 		var $radioGameFieldLayton1 = $('#config-game-field-ltn1');
 		var $radioGameFieldLayton2 = $('#config-game-field-ltn2');
 		var $radioGameFieldLayton3 = $('#config-game-field-ltn3')
-		var $radioNameTypeOriginal = $('#config-name-type-original');
-		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioNameTypeEng = $('#config-name-type-eng');
 		var $radioNameTypeJpn = $('#config-name-type-jpn');
+		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
 		var $radioThemeLight = $('#config-theme-light');
@@ -1621,15 +1607,19 @@ function plse(){
 		}
 		
 		if(this.configs.nameType == this.defaultConfigs.nameType){
-			$radioNameTypeOriginal.prop('checked', true);
+			$radioNameTypeEng.prop('checked', true);
+		} else 
+			$radioNameTypeJpn.prop('checked', true);
 		} else {
 			$radioNameTypeAdapted.prop('checked', true);
 		}
 		
 		if(this.configs.nameType == 'eng'){
 			$radioNameTypeEng.prop('checked', true);
-		} else if(this.configs.platform == 'jpn'){
+		} else if(this.configs.nameType == 'jpn'){
 			$radioNameTypeJpn.prop('checked', true);
+		} else if(this.configs.nameType == 'adapted'){
+			$radioNameTypeAdapted.prop('checked', true);
 		}
 		
 		}
@@ -1663,17 +1653,6 @@ function plse(){
 		return false;
 	}
 	
-	this.validateSelectedPlatformFromConfigSettings = function(){
-		var $radioGameFields = $("[name='config-game-field']");
-		var $radioPlatformFields = $("[name='config-platform']");
-		var $radioInvalidateLargeLinesFields = $("[name='invalidate-large-lines']");
-		var $checkedRadioGameField = $radioGameFields.filter(':checked');
-		var $checkedRadioPlatformField = $radioPlatformFields.filter(':checked');
-		var $radioPlatform3DS = $('#config-platform-3ds');
-		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
-		
-		var checkedGame = $checkedRadioGameField.val();
-		var checkedPlatform = $checkedRadioPlatformField.val();
 		
 	
 	this.hideScriptConfigSettings = function(){
@@ -1683,14 +1662,12 @@ function plse(){
 	this.saveConfigs = function(){
 		var $radioGameField = $("input[name='config-game-field']:checked");
 		var $radioNameType = $("input[name='config-name-type']:checked");
-		var $radioPlatform = $("input[name='config-platform']:checked");
 		var $radioInvalidateLargeLines = $("input[name='invalidate-large-lines']:checked");
 		var $radioTheme = $("input[name='config-theme']:checked");
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		var checkGameFieldChanged = ($radioGameField.val() != this.configs.game);
 		var checkNameTypeChanged = ($radioNameType.val() != this.configs.nameType);
-		var checkPlatformChanged = ($radioPlatform.val() != this.configs.platform);
 		var checkInvalidateLargeLinesChanged = (/^true$/i.test($radioInvalidateLargeLines.val()) != this.configs.invalidateLargeLines);
 		var checkThemeChanged = ($radioTheme.val() != this.configs.theme);
 		
@@ -1701,7 +1678,6 @@ function plse(){
 		setTimeout(function(){
 			if(checkGameFieldChanged) that.loadEquivalenceTableFromFileForm( $radioGameField.val() );
 			if(checkNameTypeChanged) that.changeDefaultNameTypes( $radioNameType[0] );
-			if(checkPlatformChanged) that.changePreviewPlatform( $radioPlatform[0] );
 			if(checkInvalidateLargeLinesChanged) that.toggleLargeLinesInvalidation( $radioInvalidateLargeLines[0] );
 			if(checkThemeChanged) that.changeTheme( $radioTheme[0] );
 			that.updateHighlightingColors( $divColorpickerFields );
@@ -1992,7 +1968,6 @@ function plse(){
 	this.toggleFileOrigin = function(radio){
 		var $radio = $(radio);
 		var $inputFileField = $('#file-field');
-		var $divTestScriptsList = $('#test-scripts-list');
 		var $divScriptsFolderList = $('#scripts-folder-list');
 		
 		var fileOrigin = $radio.val();
@@ -2021,17 +1996,6 @@ function plse(){
 			
 			$divTestScriptsList.show().find("[type='radio']").attr('required', 'required');
 		}
-	}
-	
-	this.changePreviewPlatform = function(select){
-		var $select = $(select);
-		
-		var platform = $select.val();
-		stash.set('platform', platform);
-		
-		this.loadConfigs();
-		
-		this.updatePreviewVisibleTextareas();
 	}
 	
 	this.changeDefaultGame = function(select){
@@ -2159,9 +2123,6 @@ function plse(){
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 			
 			}
-
-			// Incrementing row counter in the footer of the table
-			that.changeTotalDialogsFooter('i');
 
 			// Focusing new textarea and placing cursor at beginning of the field
 			$newTextarea.focus();
@@ -2432,7 +2393,7 @@ function plse(){
 						var scriptText = scriptsTexts[0];
 						var text = scriptText.text;
 						} else finalFilename += '.cpck';
-					        var scriptText = scriptsTexts[0];
+					        var scriptText = scriptsTexts[1];
 					        var cpck = scriptText.cpck;
 						
 						if(saveFormat == 'ansi'){
@@ -3294,13 +3255,6 @@ function plse(){
 		this.changeDefaultGame($selectEquivalenceTable);
 	}
 	
-	this.validateSelectedPlatformFromFileForm = function(){
-		var $selectPlatform = $('#platform');
-		
-		var game = this.configs.game;
-		var platform = this.configs.platform;
-		
-		if(!platform) platform = this.defaultConfigs.platform;
 	}
 	
 	this.addCharacterEquivalenceTable = function(){
@@ -3325,7 +3279,8 @@ function plse(){
 		
 		var $clonedTr = $tbody.find('tr').last().clone().removeClass('default');
 		var $tdCode = $clonedTr.find('td.code');
-		var $inputOriginalName = $clonedTr.find('input.original-name');
+		var $inputOriginalNameEng = $clonedTr.find('input.original-eng');
+		var $inputOriginalNameJpn = $clonedTr.find('input.original-jpn');
 		var $inputAdaptedName = $clonedTr.find('input.adapted-name');
 		var $buttonRemove = $clonedTr.find('button');
 		
@@ -3336,7 +3291,8 @@ function plse(){
 		$buttonRemove.removeAttr('disabled');
 		
 		$clonedTr.appendTo($tbody);
-		$inputOriginalName.focus();
+		$inputOriginalNameEng.focus();
+		$inputOriginalNameJpn.focus();
 	}
 	
 	this.removeCharacterEquivalenceTable = function(button){
@@ -3431,11 +3387,6 @@ function plse(){
 		}
 	}
 	
-	this.getSandboxPlatform = function(){
-		var $selectPlatformSandbox = $('#sandbox-platform');
-		return $selectPlatformSandbox.val();
-	}
-	
 	this.updateBackgroundsSandbox = function(field){
 		var $field = $(field);
 		var $divSandboxPreview = $('#sandbox');
@@ -3443,18 +3394,10 @@ function plse(){
 		var $imgComparativeImage = $('#sandbox-comparative-image');
 		
 		}
-		$divSandboxPreview.css('background', "url('images/" + image + ".png')");
-		$imgComparativeImage.attr('src', 'images/' + image + '_filled.png');
+		$divSandboxPreview.css('background', "url('images/" + this + ".png')");
+		$imgComparativeImage.attr('src', 'images/' + this + '_filled.png');
 	}
 	
-	this.updatePlatformSandbox = function(field){
-		var $field = $(field);
-		var $selectBackgroundSandbox = $('#sandbox-background-field');
-		var $textFieldSandbox = $('#sandbox-text-field');
-		
-		this.updateBackgroundsSandbox($selectBackgroundSandbox[0]);
-		$textFieldSandbox.trigger('keyup');
-	}
 	
 	this.formatChar = function(char){
 		var charTable = {
