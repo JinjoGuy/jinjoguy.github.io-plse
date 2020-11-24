@@ -2,71 +2,88 @@
 
 aade.equivalenceTable = {
 	256: {
-		'original': '---',
+		'eng': '---',
+		'jpn': '---',
 		'adapted': '---'
 	},
 	512: {
-		'original': '---',
+		'eng': '---',
+		'jpn': '---',
 		'adapted': '---'
 	},
 	2816: {
-		'original': 'Layton',
+		'eng': 'Layton',
+		'jpn': 'Layton',
 		'adapted': 'Leiton'
 	},
 	768: {
-		'original': 'Luke',
+		'eng': 'Luke',
+		'jpn': 'Luke',
 		'adapted': 'Lucas'
 	},
 	4352: {
-		'original': 'Dahlia',
+		'eng': 'Dahlia',
+		'jpn': 'Dahlia',
 		'adapted': 'Daisy'
 	},
 	1792: {
-		'original': 'Gordon',
-		'adapted': 'Gordon'
+		'eng': 'Gordon',
+		'jpn': 'Bob',
+		'adapted': 'Gordan'
 	},
 	2304: {
-		'original': 'Matthew',
+		'eng': 'Matthew',
+		'jpn': 'Matthew',
 		'adapted': 'Matthias'
 	},
 	2560: {
-		'original': 'Ramon',
+		'eng': 'Ramon',
+		'jpn': 'Ramon',
 		'adapted': 'Madruga'
 	},
 	1024: {
-		'original': 'Simon',
+		'eng': 'Simon',
+		'jpn': 'Roy',
 		'adapted': 'Vamorea'
 	},
 	4096: {
-		'original': 'Granny R.',
+		'eng': 'Granny R.',
+		'jpn': 'Granny P.',
 		'adapted': 'Granny E.'
 	},
 	5888: {
-		'original': 'Agnes',
+		'eng': 'Agnes',
+		'jpn': 'Victoria',
 		'adapted': 'Joan'
 	},
 	5376: {
-		'original': 'Adrea',
+		'eng': 'Adrea',
+		'jpn': 'Adne',
 		'adapted': 'Bonnie'
 	},
 	6144: {
-		'original': 'Archibald',
+		'eng': 'Archibald',
+		'jpn': 'Andalton',
 		'adapted': 'Facenton'
 	},
 	4864: {
-		'original': 'Amelie',
+		'eng': 'Amelie',
+		'jpn': 'Amelie',
 		'adapted': 'Amelia'
 	},
 	5120: {
-		'original': 'Beatrice',
+		'eng': 'Beatrice',
+		'jpn': 'Anna',
 		'adapted': 'Bea'
 	},
 	1536: {
-		'original': 'Crouton',
+		'eng': 'Crouton',
+		'jpn': 'Crouton',
 		'adapted': 'Cretoln'
 	},
 	3840: {
-		'original': 'Grumm',
+		'eng': 'Crumm',
+		'jpn': 'Gant',
 		'adapted': 'Michaeleas'
 	}
 }; 
